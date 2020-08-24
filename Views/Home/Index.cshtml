@@ -1,0 +1,71 @@
+﻿@model testowo.ViewModels.HomeViewModel
+@using testowo.Infrastructure
+@{ 
+    ViewBag.Title = "Strona Glowna";
+
+}
+
+
+<nav class="kategorieHorizontal">
+    <ul>
+        @foreach (var cat in Model.Cat)
+        {
+            <li>
+                <a href="@Url.Action("List","Course",new { nameCat = cat.CategoryName.ToLower() })" 
+                   style="background-image: url(@Url.CatIconPath(cat.NameFileIcon)); ">
+                    @cat.CategoryName
+                    
+                </a>
+            </li>
+        }
+
+
+    </ul>
+    <a href="link">
+        <img id="baner" src="../Content/Images/baner.png" />
+    </a>
+</nav>
+
+<section>
+    <ul class="KursyTrzyKolumny duzaListaKursy">
+        @foreach (var n in Model.News)
+        {
+            <li>
+                <article>
+                    <a class="dodajDoKoszykaLink" href="@Url.Action("AddToCart","Cart",new { id = n.CourseId})">
+                        <img src="../Content/Images/koszyk.png" />
+                    </a>
+                    <a class="kursSzczegolyLink" href="@Url.Action("Details","Course",new { id = n.CourseId })">
+                        <div class="newFlag"></div>
+                        <img class="kurs" src="@Url.CourseIconPath(n.NamePicture)" />
+                        <h1>
+                            @n.TitleCourse    -   @n.AutorCourse
+                        </h1>
+                    </a>
+                </article>
+            </li>
+        }
+    </ul>
+</section>
+<section>
+    <ul class="KursyTrzyKolumny duzaListaKursy">
+        @foreach (var b in Model.Bestsellers)
+        {
+            <li>
+                <article>
+                    <a class="dodajDoKoszykaLink" href="@Url.Action("AddToCart","Cart",new { id = b.CourseId})">
+                        <img src="../Content/Images/koszyk.png" />
+                    </a>
+                    <a class="kursSzczegolyLink" href="@Url.Action("Details","Course",new { id = b.CourseId })">
+                        <div class="bestsellerFlag"></div>
+                        <img class="kurs" src="@Url.CourseIconPath(b.NamePicture)" />
+                        <h1>
+                            @b.TitleCourse    -   @b.AutorCourse
+                        </h1>
+                    </a>
+                </article>
+            </li>
+        }
+
+    </ul>
+</section>

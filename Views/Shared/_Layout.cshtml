@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="@Url.Content("~/Content/Site1.css")" rel="stylesheet" />
+    @System.Web.Optimization.Styles.Render("~/Content/base/css")
+</head>
+<body>
+    <header>
+        <div style="overflow: hidden;">
+            <a id="koszykHeaderLink" href="@Url.Action("Index", "Cart")">
+                Koszyk (<span id="koszyk-naglowek-ilosc-elementow">@Html.Action("GetCountOrderItem", "Cart")</span>)
+                <span></span>
+            </a>
+            @Html.Partial("_LoginPartial")
+            <a id="indexHeaderLogo" href="link">
+                <img src="@Url.Content("~/Content/Images/logo.png")" class="center" />
+            </a>
+        </div>
+    </header>
+
+    <div>
+
+        @RenderBody()
+    </div>
+
+
+    <footer>
+        <nav>
+            <ul>
+                <li>"@Html.ActionLink("O nas", "StaticPages", new { name = "About" })"</li>
+                <li>"@Html.ActionLink("Społeczność", "StaticPages", new { name = "Community" })"</li>
+                <li>"@Html.ActionLink("Opinie", "StaticPages", new { name = "Opinions" })"</li>
+                <li>"@Html.ActionLink("Pomoc", "StaticPages", new { name = "Help" })"</li>
+                <li>"@Html.ActionLink("Regulamin", "StaticPages", new { name = "Regulations" })"</li>
+                <li>"@Html.ActionLink("Kontakt", "StaticPages", new { name = "Contact" })"</li>
+            </ul>
+        </nav>
+        <div id="footerLogo">
+        </div>
+        <div id="footerCopyright">
+            Copyright &copy; 2016 P. Kursy
+        </div>
+    </footer>
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

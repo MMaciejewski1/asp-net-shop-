@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="@Url.Content("~/Content/Site1.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/themes/base/jquery-ui.css")" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div style="overflow: hidden; margin-bottom: 30px;">
+            <a class="manageLink" href="@Url.Action("Index", "Home")">
+                Start
+            </a>
+            <a class="manageLink" href="@Url.Action("Index", "Manage")">
+                Twoje dane
+            </a>
+            <a class="manageLink" href="@Url.Action("OrderList", "Manage")" style="width: 100px">
+                Zamówienia
+            </a>
+            @if (@User.IsInRole("Admin"))
+            {
+                <a class="manageLink" href="@Url.Action("AddCourse", "Manage")">
+                    Dodaj
+                </a>
+                <a class="manageLink" href="@Url.Content("~/elmah")">
+                    Logi
+                </a>
+                <a class="manageLink" href="@Url.Content("~/hangfire")">
+                    Jobs
+                </a>
+
+            }
+
+            <a id="koszykHeaderLink" href="@Url.Action("Index", "Koszyk")">
+                KOSZYK (<span id="koszyk-naglowek-ilosc-elementow">@Html.Action("GetCountOrderItem", "Cart")</span>)
+                <span id="cart-header-logo"></span>
+            </a>
+            @Html.Partial("_LoginPartial")
+        </div>
+        <div id="Breadcrumb">
+            <img src="@Url.Content("~/Content/Images/dommaly.png")" />
+            @Html.MvcSiteMap().SiteMapPath()
+        </div>
+    </header>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="@Url.Action("StaticPages","Home", new { nazwa = "About" })" style="">O nas</a></li>
+                <li><a href="@Url.Action("StaticPages","Home", new { nazwa = "Community" })" style="">Spolecznosc</a></li>
+                <li><a href="@Url.Action("StaticPages","Home", new { nazwa = "Opinions" })" style="">Opinie</a></li>
+                <li><a href="@Url.Action("StaticPages","Home", new { nazwa = "Help" })" style="">Pomoc</a></li>
+                <li><a href="@Url.Action("StaticPages","Home", new { nazwa = "Regulations" })" style="">Regulamin</a></li>
+                <li><a href="@Url.Action("StaticPages","Home", new { nazwa = "Contact" })" style="">Kontakt</a></li>
+            </ul>
+        </nav>
+        <div id="footerLogo">
+        </div>
+        <div id="footerCopyright">
+            Copyright &copy; 2016 P. Kursy
+        </div>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

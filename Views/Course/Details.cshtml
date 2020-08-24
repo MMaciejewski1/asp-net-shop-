@@ -1,0 +1,51 @@
+﻿@model testowo.Models.Course
+@using testowo.Infrastructure
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div id="ListaKategoriZawartosc">
+  @Html.Action("CatMeni")
+    <div id="KategorieListPrawaSekcja">
+        <div id="Breadcrumb">
+            <img src="../Content/Images/dommaly.png" />
+            <a href="link">
+                @Html.MvcSiteMap().SiteMapPath()
+            </a>
+        </div>
+        <section id="SekcjaKurs">
+            <div id="KursLewa">
+                <img src="@Url.CourseIconPath(Model.NamePicture)" />
+            </div>
+            <div id="KursPrawa">
+                <div id="KursNazwa">
+                    <h1>
+                        @Model.TitleCourse
+                    </h1>
+                    <h2>
+                        @Model.AutorCourse
+                    </h2>
+                </div>
+                <div id="KursCena">
+                    <div>
+                        @string.Format("{0:0.##}", Model.PriceCourse)<span>PLN</span>
+                    </div>
+                    <a href="@Url.Action("AddToCart","Cart", new { id = Model.CourseId})"></a>
+                </div>
+                <div id="KursOpis">
+                    @Model.DescCourse
+                </div>
+                <div id="KursInfo">
+                    @Model.ShortDesc
+                </div>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <a href="@Url.Action("AddCourse", "Manage", new { kursId = Model.CourseId })" style="margin-top: 20px; font-weight: bold; display: block;">Edytuj</a>
+                }
+            </div>
+        </section>
+    </div>
+</div>

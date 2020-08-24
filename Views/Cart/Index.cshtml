@@ -1,0 +1,98 @@
+﻿@model testowo.ViewModels.CartViewModel
+@using testowo.Infrastructure
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div id="ListaKategoriZawartosc">
+    @Html.Action("CatMeni", "Course")
+    <div id="KategorieListPrawaSekcja">
+        <div id="Breadcrumb">
+            <img src="../Content/Images/dommaly.png" />
+            <a href="link">
+                @Html.MvcSiteMap().SiteMapPath()
+            </a>
+        </div>
+
+        <section class="SekcjaKoszyk">
+            <div class="SekcjaHeader" style="margin-bottom: 0px;">
+                <h1>Twój koszyk</h1>
+            </div>
+
+            <table id="koszykTabela">
+                @foreach (var pos in Model.OrderItem)
+                {
+                    <tr id="koszyk-wiersz-@pos.course.CourseId">
+                        <td>
+                            <a href="@Url.Action("Szczegoly","Kursy", new { id = pos.course.CourseId })">
+                                <img src="@Url.Content("~/Content/Kursy/" + pos.course.NamePicture)" />
+                            </a>
+                        </td>
+                        <td><a href="@Url.Action("Szczegoly","Kursy", new { id = pos.course.CourseId })">@pos.course.TitleCourse</a></td>
+                        <td>Ilość: <span id="koszyk-ilosc-pozycji-@pos.course.CourseId">@pos.count</span></td>
+                        <td>@String.Format("{0:0.##}", pos.value) zł</td>
+                        <td><a class="usunKurs" data-id="@pos.course.CourseId" href="#">Usuń</a></td>
+                    </tr>
+                }
+
+                <tr id="koszyk-empty-message" @if (Model.OrderItem != null && Model.OrderItem.Count > 0) { <text> class="hidden" </text> }>
+                    <td>Twój koszyk jest pusty. Może chcesz coś dodać do koszyka?</td>
+            </table>
+
+            <div id="CenaCalkowita" style="">
+                Razem: <span id="calkowita-cena-wartosc">@String.Format("{0:0.##}", Model.Totalprice)</span> zł
+            </div>
+
+            <div class="SekcjaPrzyciski">
+                <a class="PrzyciskLink" href="@Url.Content("~/")">Kontynuuj zakupy</a>
+                @if (Model.Totalprice > 0)
+                {
+                    <a class="PrzyciskLink" id="koszyk-button-zaplac" href="@Url.Action("Pay","Cart")">Zapłać</a>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+@section Scripts{
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryAndJqueryUI")
+           <script type="text/javascript">
+            $(function () {
+                $(".usunKurs").click(function () {
+
+                    var recordDoUsuniecia = $(this).attr("data-id");
+
+                    if (recordDoUsuniecia != '') {
+                        $.post("/Cart/DeleteFromCart", { "kursId": recordDoUsuniecia },
+                            function (response) {
+                                if (response.CountPositionToDelete == 0) {
+
+                                    $('#koszyk-wiersz-' + response.IdPositionToDelete).fadeOut('slow', function () {
+                                        if (response.CartCountPosition == 0) {
+                                            $("#koszyk-empty-message").removeClass("hidden");
+                                        }
+                                    });
+                                } else {
+                                    $('#koszyk-ilosc-pozycji-' + response.IdPositionToDelete).text(response.CountPositionToDelete);
+                                }
+
+                                if (response.KoszykIloscPozycji == 0) {
+                                    $('#koszyk-button-zaplac').addClass('hidden');
+                                    $('#CenaCalkowita').addClass('invisible');
+                                }
+                                $('#calkowita-cena-wartosc').text(response.TotalCartPrice);
+                                $('#koszyk-naglowek-ilosc-elementow').text(response.CartCountPosition);
+                            });
+                        return false;
+                    }
+                });
+        });
+    
+    
+    
+    </script>
+
+
+}

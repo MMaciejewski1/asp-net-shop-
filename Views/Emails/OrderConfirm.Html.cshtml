@@ -1,0 +1,39 @@
+﻿@model testowo.ViewModels.OrderConfirmEmail
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+
+    @Html.EmbedImage("~/content/Images/logo.png")
+
+    <p>Dziękujemy!</p>
+    <p>Złożyłeś zamówienie w serwisie praktyczne kursy.</p>
+    <p>Zamówione pozycje :</p>
+
+    @{
+        IEnumerable<testowo.Models.OrderItem> pozycjeZamowienia = Model.Items;
+
+        for (int i = 0; i < pozycjeZamowienia.Count(); i++)
+        {
+            <p>
+                @pozycjeZamowienia.ElementAt(i).course.TitleCourse - @pozycjeZamowienia.ElementAt(i).course.AutorCourse
+                - @pozycjeZamowienia.ElementAt(i).course.PriceCourse zł. - @pozycjeZamowienia.ElementAt(i).Amount szt.
+            </p>
+           
+        }
+    }
+
+    <p>Prosimy o przelanie kwoty @Model.Value zł, tytułem: "zamówienie nr @Model.NrOrder" na nasze konto bankowe:</p>
+    <p>Praktyczne kursy Sp. z o.o</p>
+    <p>ul. Mila 16/11</p>
+    <p>40-678 Tychy</p>
+    <p>PKO BP 10 0000 0000 0000 0000 0000 </p>
+
+    <p>Zaraz po otrzymaniu środków uzyskasz pełny dostęp do kursu</p>
+    <p>Dziękujemy i zapraszamy ponownie!</p>
+    <p>PraktyczneKursy.pl</p>
+
+
+</body>
+
+</html>

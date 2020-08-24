@@ -1,0 +1,35 @@
+﻿@model IEnumerable<testowo.Models.Course>
+@using testowo.Infrastructure
+
+
+<div id="SekcjaListaKategori">
+    <ul class="KursyTrzyKolumny MalaListaKategorii">
+
+
+
+        @foreach (var c in Model)
+        {
+            <li>
+                <article>
+                    <a class="dodajDoKoszykaLink" href="@Url.Action("AddToCart","Cart",new { id = c.CourseId })">
+                        <img src="../Content/Images/koszyk.png" />
+                    </a>
+                    @if (c.Bestseller)
+                    {
+
+                        <div class="bestsellerFlag"></div>
+
+                    }
+
+
+                    <a class="kursSzczegolyLink" href="@Url.Action("Details","Course",new { id = c.CourseId })">
+                        <img class="kurs" src="@Url.CourseIconPath(c.NamePicture)" />
+                        <h1>
+                            @c.AutorCourse   -    @c.TitleCourse
+                        </h1>
+                    </a>
+                </article>
+            </li>
+        }
+    </ul>
+</div>
